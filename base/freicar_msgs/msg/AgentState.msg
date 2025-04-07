@@ -1,0 +1,9 @@
+Header header
+string agent_id
+nav_msgs/Path current_plan
+uint32 plan_index
+uint8 STATE_DRIVING=0
+uint8 STATE_IDLE=1
+uint8 STATE_STOPPED_SELF=2
+uint8 STATE_STOPPED_EXT=3
+uint8 state

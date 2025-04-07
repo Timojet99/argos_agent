@@ -1,0 +1,7 @@
+geometry_msgs/Point current_position
+uint8 command
+uint16 node_count
+float32 distance
+---
+geometry_msgs/Point[] points
+uint8[] description

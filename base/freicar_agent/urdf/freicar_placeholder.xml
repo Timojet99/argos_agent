@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<robot name="placeholder">
+
+  <material name="blue">
+    <color rgba="0 0.2 0.8 1"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+
+  <!-- tracker link -->
+  <link name="placeholder">
+  </link>
+
+  <!-- base_link link -->
+  <link name="placeholder/base_link">
+  </link>
+
+  <!-- middle of front axes link -->
+  <link name="placeholder/front_axis">
+  </link>
+
+  <!-- middle of rear axes link -->
+  <link name="placeholder/rear_axis">
+  </link>
+
+	<!-- zed calibration initial guess -->
+  <link name="placeholder/zed_init">
+  </link>
+
+  <!-- intel calibration initial guess -->
+  <link name="placeholder/intel_init">
+  </link>
+
+  <!-- rear sensor link -->
+    <link name="placeholder/rear_sensor_link">
+  </link>
+
+  <!-- lidar link -->
+    <link name="placeholder/lidar_link">
+  </link>
+
+  <!-- zed link -->
+    <link name="placeholder/zed_camera">
+    </link>
+
+  <!-- static joint freicar_X/handle removed for now (causes trouble with Vive)
+    <link name="placeholder/handle">
+    </link>
+  -->
+
+
+	<!-- static joint -->
+	<joint name="tracker_to_zed_init" type="fixed">
+    <parent link="placeholder"/>
+    <child link="placeholder/zed_init"/>
+		<!--origin rpy="-1.570796 0 -1.570796" xyz="-0.006379 0.053471 -0.071401"-->
+		<origin rpy="0 0 0" xyz="-0.006379 0.053471 -0.071401"/>
+	</joint>
+
+
+	<!-- static joint -->
+	<joint name="tracker_to_intel_init" type="fixed">
+    <parent link="placeholder"/>
+    <child link="placeholder/intel_init"/>
+		<origin rpy="-1.570796 0 -1.570796" xyz="-0.006912 0.026985 -0.029952"/>
+	</joint>
+
+
+	<!-- static joint -->
+	<joint name="zed_calibration" type="fixed">
+    <parent link="placeholder/zed_init"/>
+    <child link="placeholder/zed_camera"/>
+	    <origin rpy="-0.042355 -0.062778 -0.014621" xyz="0.000000 0.000000 -0.015000 "/>
+     <!-- origin rpy="1.5707963 0.0 1.5707963" xyz="0.000000 0.000000 -0.015000 "/ -->
+     <!-- origin rpy="-1.5707963, 1.5707963, 0.0   " xyz="0.000000 0.000000 -0.015000 "-->
+     <!-- origin rpy="-1.6131513 1.5080183 -0.014621" xyz="0.000000 0.000000 -0.015000 "/ -->
+	</joint>
+
+	<!-- static joint -->
+	<joint name="base_to_rear_axis" type="fixed">
+    <parent link="placeholder/base_link"/>
+    <child link="placeholder/rear_axis"/>
+		<origin rpy="0 0 0" xyz="-0.18267 0 0.05238"/>
+	</joint>
+
+  	<!-- static joint -->
+	<joint name="base_to_front_axis" type="fixed">
+    <parent link="placeholder/base_link"/>
+    <child link="placeholder/front_axis"/>
+		<origin rpy="0 0 0" xyz="0.18238 0 0.05238"/>
+	</joint>
+
+	<!-- static joint -->
+	<joint name="base_to_lidar" type="fixed">
+    <parent link="placeholder/base_link"/>
+    <child link="placeholder/lidar_link"/>
+    <!-- from demo-agent branch: -->
+    <!-- <origin rpy="0 0 0" xyz="0.30073 -0.00014 0.21424"/> -->
+    <!-- in freicar_base -->
+		<origin rpy="0 0 0" xyz="0.29073 -0.00014 0.21424"/>
+	</joint>
+
+  <!-- static joint -->
+	<joint name="base_to_rear_sensor" type="fixed">
+    <parent link="placeholder/base_link"/>
+    <child link="placeholder/rear_sensor_link"/>
+		<origin rpy="0 -0.785398 3.141592" xyz="-0.27808 -0.04338 0.21019"/>
+	</joint>
+
+  <!-- static joint -->
+	<joint name="tracker_to_base_link" type="fixed">
+    <parent link="placeholder"/>
+    <child link="placeholder/base_link"/>
+		<origin rpy="0 0 0" xyz="-0.2412 0.00253 -0.34784"/>
+	</joint>
+
+	<!-- static joint freicar_X/handle removed for now (causes trouble with Vive)
+        <joint name="handle" type="fixed">
+		<parent link="placeholder/handle"/>
+    <child link="placeholder"/>
+                <origin rpy="0 0 0" xyz="0.2412 -0.00253 0.34784"/>
+    </joint> -->
+
+
+
+</robot>

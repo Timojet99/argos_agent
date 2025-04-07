@@ -1,0 +1,71 @@
+<!-- creates a sim_only agent -->
+<launch>
+  <!-- necessary params -->
+  <arg name="agent_name" default="freicar_1"/>
+
+  <!-- generate URDF on-the-fly and store in parameter -->
+  <param name="$(arg agent_name)_robot_description"
+    command="$(find freicar_agent)/scripts/generate_urdf.sh $(find freicar_agent)/urdf/freicar_placeholder.xml $(arg agent_name)" />
+
+  <!-- carla proxy args -->
+  <arg name="sensor_description_file" default="$(find freicar_carla_proxy)/param/sensors.yaml" />
+  <arg name="thread_sleep_ms" default="10" />
+  <arg name="wait_for_network_map" default="FALSE" />
+  <arg name="spawn/x" default="0" />
+  <arg name="spawn/y" default="0" />
+  <arg name="spawn/z" default="0" />
+  <arg name="use_yaml_spawn" default="true" />
+  <arg name="spawn/heading" default="20" />
+  <arg name="sync_topic" default="!" />
+
+
+  <!-- sensor related mappings -->
+  <remap from="sim/lidar" to="$(arg agent_name)/sim/lidar" />
+  <remap from="sim/camera/rgb/front/image" to="$(arg agent_name)/sim/camera/rgb/front/image" />
+  <remap from="sim/camera/rgb/front/image/camera_info"
+    to="$(arg agent_name)/sim/camera/rgb/front/image/camera_info" />
+  <remap from="sim/camera/depth/front/image" to="$(arg agent_name)/sim/camera/depth/front/image" />
+  <remap from="sim/camera/depth/front/image_float"
+    to="$(arg agent_name)/sim/camera/depth/front/image_float" />
+  <remap from="sim/camera/depth/front/image/camera_info"
+    to="$(arg agent_name)/sim/camera/depth/front/image/camera_info" />
+  <remap from="sim/camera/semseg/front/image" to="$(arg agent_name)/sim/camera/semseg/front/image" />
+  <remap from="sim/camera/semseg/front/image_raw" to="$(arg agent_name)/sim/camera/semseg/front/image_raw" />
+  <remap from="sim/camera/semseg/front/image/camera_info"
+    to="$(arg agent_name)/sim/camera/semseg/front/image/camera_info" />
+  <!-- other mappings -->
+  <remap from="control" to="$(arg agent_name)/control" />
+  <remap from="odometry" to="$(arg agent_name)/odometry" />
+  <remap from="odometry_noise" to="$(arg agent_name)/odometry_noise" />
+
+  <!-- carla proxy node -->
+    <!-- launch-prefix="bash -c 'sleep 2.0; $0 $@' " > -->
+  <node pkg="freicar_carla_proxy" type="freicar_carla_proxy_node"
+    name="freicar_$(arg agent_name)_carla_proxy" output="screen">
+    <param name="name" value="$(arg agent_name)" />
+    <param name="tf_name" value="$(arg agent_name)" />
+    <param name="type" value="sim" />
+    <param name="sync_topic" value="$(arg sync_topic)" />
+    <param name="spawn/x" value="$(arg spawn/x)" />
+    <param name="spawn/y" value="$(arg spawn/y)" />
+    <param name="spawn/z" value="$(arg spawn/z)" />
+    <param name="spawn/heading" value="$(arg spawn/heading)" />
+    <param name="height_offset" value="0.0" />
+    <param name="sim_delay" value="0.0" />
+    <param name="spawn_sensors" value="true" />
+    <param name="use_yaml_spawn" value="$(arg use_yaml_spawn)" />
+    <param name="thread_sleep_ms" value="$(arg thread_sleep_ms)" />
+    <param name="brake_multiplier" value="2.4" />
+    <param name="sensor_description_file" value="$(arg sensor_description_file)" />
+  </node>
+
+  <!-- robot description -->
+    <node name="robot_state_publisher_nonstatic_$(arg agent_name)" pkg="robot_state_publisher" type="robot_state_publisher" args=" _use_tf_static:=false" >
+            <remap from="robot_description" to="$(arg agent_name)_robot_description" />
+    </node>
+
+    <node name="robot_state_publisher_$(arg agent_name)" pkg="robot_state_publisher" type="robot_state_publisher" >
+            <remap from="robot_description" to="$(arg agent_name)_robot_description" />
+    </node>
+
+</launch>

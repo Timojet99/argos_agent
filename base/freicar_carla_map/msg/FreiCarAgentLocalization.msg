@@ -1,0 +1,5 @@
+string name
+string lane_uuid
+float32 lane_offset
+geometry_msgs/Vector3 velocity
+geometry_msgs/TransformStamped current_pose

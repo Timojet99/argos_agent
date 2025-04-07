@@ -1,0 +1,35 @@
+<launch>
+	<node name="freicar_chaperone" pkg="freicar_chaperone" type="freicar_chaperone_node" output="screen">
+
+	    <!-- Frame id of the reference tracker -->
+		<param name="global_frame"         value="map" />
+
+		<!-- When estimating the corridors, how many seconds to extrapolate in the future -->
+		<param name="lookahead_duration"   value="2.0" />
+
+		<!-- This sets the time resolution of the estimated corridors, as well as the tick rate of the chaperone (in seconds) -->
+		<param name="sampling_timestep"    value="0.1" />
+
+		<!-- Dimensions of the rectangular footprint of a car -->
+		<param name="car_width"            value="0.3" />
+		<param name="car_len"              value="0.6" />
+
+		<!-- Whether the chaperone should stop the car by sending commands to the hardware directly if the agent is unresponsive -->
+		<param name="force_stop_enabled"   value="true" />
+
+		<!-- How many seconds until the force stop is executed if the agent doesn't acknowledge the stop command -->
+		<param name="force_stop_delay"         value="0.7" />
+
+		<!-- Whether to resume agents automatically after they have been stopped -->
+		<param name="automatic_resume"     value="true" />
+
+		<!-- Minimum time (in seconds) that has to pass until an automatic resume is possible -->
+		<param name="resume_delay"         value="2.0" />
+
+		<!-- The bag file where the map outline has been recorded as TFs -->
+		<param name="fence_bag" value="$(find freicar_chaperone)/data/fence.bag" />
+
+		<!-- The frame id of the mapping tool used to record the outline -->
+		<param name="mapping_tool_frame" value="mapping_tool" />
+	</node>
+</launch>

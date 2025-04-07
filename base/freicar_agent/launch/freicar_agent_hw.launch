@@ -1,0 +1,36 @@
+<launch>
+
+    <arg name="agent_name" default="freicar_X" />
+    <arg name="use_t265" default="false" />
+
+    <!-- generate URDF on-the-fly and store in parameter -->
+    <param name="$(arg agent_name)_robot_description" command="$(find freicar_agent)/scripts/generate_urdf.sh $(find freicar_agent)/urdf/freicar_placeholder.xml $(arg agent_name)" />
+
+    <!-- sensor/car related mappings -->
+    <remap from="brake_cmd" to="$(arg agent_name)/brake_cmd"/>
+    <remap from="control_cmd" to="$(arg agent_name)/control"/>
+    <remap from="control_mode" to="$(arg agent_name)/control_mode"/>
+    <remap from="control_report" to="$(arg agent_name)/control_report"/>
+    <remap from="battery_calibration" to="$(arg agent_name)/battery_calibration"/>
+    <remap from="power_report" to="$(arg agent_name)/power_report"/>
+
+    <node pkg="rosserial_python" type="serial_node.py" name="freicar_$(arg agent_name)_serial" output="screen" args=" _port:=/dev/ttyACM0 _baud:=115200"/>
+
+    <include file="$(find freicar_launch)/launch/start_sensors.launch" >
+        <arg name="name" value="$(arg agent_name)" />
+    </include>
+
+    <node name="robot_state_publisher_nonstatic_$(arg agent_name)" pkg="robot_state_publisher" type="robot_state_publisher" args=" _use_tf_static:=false" >
+            <remap from="robot_description" to="$(arg agent_name)_robot_description" />
+    </node>
+
+    <node name="robot_state_publisher_$(arg agent_name)" pkg="robot_state_publisher" type="robot_state_publisher" >
+            <remap from="robot_description" to="$(arg agent_name)_robot_description" />
+    </node>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="$(arg agent_name)_realsense_broadcaster" args="0 0 0 0.5, -0.5, 0.5, 0.5  /$(arg agent_name)/intel_init /$(arg agent_name)/d435_link" />
+   
+    <group if="$(arg use_t265)">
+        <node pkg="tf2_ros" type="static_transform_publisher" name="$(arg agent_name)_t265_broadcaster_test" args="-0.2698532179263188 -0.040850339396099035 0.4645195947923341 -0.382683356885289 1.2505896802020216e-07 -0.9238795637759826 3.019191264578887e-07 /$(arg agent_name)/t265_link /$(arg agent_name)" />
+    </group>
+    
+</launch>

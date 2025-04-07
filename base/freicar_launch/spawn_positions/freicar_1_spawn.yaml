@@ -1,0 +1,5 @@
+spawn_pose:
+  x: 0.8
+  y: 0.8
+  z: 0.0
+  heading: 30.0 # in degree

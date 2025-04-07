@@ -1,0 +1,5 @@
+string agent_id
+bool knows_plan
+bool track
+---
+bool success
