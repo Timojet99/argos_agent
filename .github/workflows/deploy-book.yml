@@ -1,0 +1,29 @@
+name: Build and deploy mdBook
+
+on:
+  push:
+    branches:
+      - main  # or whichever branch you want to build from
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Install mdBook
+        run: |
+          curl -L https://github.com/rust-lang/mdBook/releases/download/v0.4.21/mdbook-v0.4.21-x86_64-unknown-linux-gnu.tar.gz \
+          | tar xz -C /usr/local/bin
+
+      - name: Build the book
+        run: mdbook build Master-Documentation 
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: my-mdbook/book  # The output directory, if you're using mdBook's default build folder
+          publish_branch: gh-pages
