@@ -25,5 +25,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: my-mdbook/book  # The output directory, if you're using mdBook's default build folder
+          publish_dir: Master-Documentation/book  # The output directory, if you're using mdBook's default build folder
           publish_branch: gh-pages
