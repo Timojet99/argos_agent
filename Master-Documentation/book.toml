@@ -1,6 +1,0 @@
-[book]
-authors = ["Timo Müller"]
-language = "en"
-multilingual = false
-src = "src"
-title = "Masterproject Documentation"

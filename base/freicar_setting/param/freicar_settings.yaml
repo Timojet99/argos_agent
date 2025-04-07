@@ -1,6 +1,0 @@
-# enable headless mode
-no-render-mode: false
-# client controls simulation
-synchronous: false
-# 0 = variable, server runs at full speed
-sim-steps-per-second: 20
