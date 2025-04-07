@@ -9,6 +9,7 @@
 #include <std_msgs/Bool.h>
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/Pose.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <stdlib.h>
 #include <tf2/transform_datatypes.h>
 #include <tf2/transform_storage.h>
@@ -35,6 +36,9 @@ ArgosAgent::ArgosAgent()
   // TF parameters
   std::string rear_axis_frame_ = agent_name_ + "/rear_axis";
   std::string base_link_frame_ = agent_name_ + "/base_link";
+
+  // Member variables
+  geometry_msgs::Pose lookahead_point_;
 
   // Set up subscribers and publishers
   // Pubs
@@ -71,9 +75,6 @@ int ArgosAgent::Run() {
   return EXIT_SUCCESS;
 };
 
-void ArgosAgent::LookaheadCallback(const geometry_msgs::Pose::ConstPtr& lookahead_point_) {
-  float x = lookahead_point->position.x;
-  float y = lookahead_point->position.y;
-
-  
+void ArgosAgent::LookaheadCallback(const geometry_msgs::Pose::ConstPtr& lookahead_point) {
+  lookahead_point_ = *lookahead_point;
 }
