@@ -1,0 +1,16 @@
+<launch>
+ 
+  <arg name="agent_name" default="freicar_X" />
+  <---arg name="" default="" /--->
+
+  <node name="argos_agent" pkg="argos_agent" type="argos_agent_node" output="screen">
+    <param name="agent_name" value="$(arg agent_name)" />
+    <param name="global_frame" value="world" />
+    <param name="p" value="0.05" />
+    <param name="i" value="0.006" />
+    <param name="d" value="0.01" />
+    <param name="desired_velocity" value="0.45" />
+    <param name="lookahead_distance" value="0.2" />
+    <---param name="" value="" /--->
+  </node>
+</launch>

@@ -3,26 +3,35 @@ class ArgosAgent {
     ArgosAgent();
     ~ArgosAgent();
 
-    int Run();
+    int run();
 
   private:
     // Functions
-    void LookaheadCallback();
-    void OdometryCallback();
+    // Callbacks
+    void lookaheadCallback();
+    void odometryCallback();
+    // Member Functions
+    double pidStep();
+    double getSteeringAngle();
 
     // Parameters
     // Car parameters
     std::string agent_name_;
     std::string global_frame_;
-    std::string cmd_topic_;
-    std::string agent_state_topic_;
 
     // Simulation parameters
-    float integral_;
-    float proportional_;
-    float differential_;
-    float desired_velocity_;
-    float lookahead_distance_;
+    double d_;
+    double p_;
+    double d_;
+    double desired_velocity_;
+    double lookahead_distance_;
+    double prev_error_;
+    ros::Duration prev_timestamp_;
+    double theta_;
+
+    // Member variables
+    geometry_msgs::Pose lookahead_point_; // TODO just temporary until proper path received
+    nav_msgs::Odometry odometry_;
 
     // Defaulted parameters
     bool control_mode_;
